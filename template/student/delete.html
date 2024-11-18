@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="container my-3">
+        <form action="/student/delete" method="post" onsubmit="return confirm('Are You Sure You Want To Delete This Student ? This Action Cannot Be Undone')">
+            {% csrf_token %}
+            <h4><label for="roll_number" class="form-label">Student Roll Number</label></h4>
+            <input type="text" class="form-control" id="roll_number" name="roll_number" required>
+            <div class="my-3">
+                <button type="submit" class="btn btn-danger">Delete Student</button>
+            </div>
+        </form>
+    </div>
+{% endblock body %}

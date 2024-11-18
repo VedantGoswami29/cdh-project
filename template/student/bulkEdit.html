@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+    <form action="/student/bulk-edit" method="post">
+        {% csrf_token %}
+        <div class="mb-1">
+            <h4><label for="id_start_year" class="form-label">Start Year</label></h4>
+            <input type="text" class="form-control" id="id_start_year" name="start_year" required>
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_standard" class="form-label">Standard</label></h4>
+            <input type="text" class="form-control" id="id_standard" name="standard">
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_status" class="form-label">Student Status</label></h4>
+            <select name="status" class="form-control" id="id_status">
+                <option value="" disabled>Select Student Status</option>
+
+                <option value="No Change">No Change</option>
+
+                <option value="Studying">Studying</option>
+
+                <option value="Not Studying">Not Studying</option>
+
+                <option value="Completed">Completed</option>
+
+            </select>
+        </div>
+
+        <div class="mb-1">
+            <button type="submit" class="mt-1 btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock body %}

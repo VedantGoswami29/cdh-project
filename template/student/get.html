@@ -1,0 +1,15 @@
+{% extends "student/edit.html" %}
+{% block formStart %}{% endblock formStart %}
+{% block photo %}{% endblock photo %}
+{% block group %} <input type="text" class="form-control" id="id_group" disabled>{% endblock group %}
+{% block student-type %} <input type="text" class="form-control" id="id_student_type" disabled>{% endblock student-type %}
+{% block student-status %} <input type="text" class="form-control" id="id_status" disabled>{% endblock student-status %}
+{% block form-end %}{% endblock form-end %}
+{% block enable %}
+            input_fields.forEach((field) => {
+                field.value = "";
+            })
+            roll_number.readOnly = enable;
+            roll_number.value = enable ? roll_number.value : ""
+            photo.src = ""
+{% endblock enable %}

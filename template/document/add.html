@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="container my-3">
+        <form action="/document/add" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if user.is_superuser %}
+                <div class="my-1">
+                    <h4><label for="id_roll_number" class="form-label">Roll Number</label></h4>
+                    <input type="text" class="form-control" id="id_roll_number" name="roll_number" required>
+                </div>
+            {% endif %}
+            <div class="my-1">
+                <h4><label for="id_document_name" class="form-label">Document Name</label></h4>
+                <input type="text" class="form-control" id="id_document_name" name="document_name" required>
+            </div>
+
+            <div class="my-1">
+                <h4><label for="id_document" class="form-label">Document</label></h4>
+                <input type="file" class="form-control" id="id_document" name="document" accept=".jpg,.jpeg,.png,.pdf" required>
+            </div>
+            <div class="my-2">
+                <button type="submit" class="btn btn-primary">Add Document</button>
+            </div>
+        </form>
+    </div>
+{% endblock body %}

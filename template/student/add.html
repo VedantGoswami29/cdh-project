@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container my-3">
+    <form action="/student/add" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-1">
+            <h4><label for="id_first_name" class="form-label">First name</label></h4>
+            <input type="text" name="first_name" maxlength="100" class="form-control" required id="id_first_name">
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_last_name" class="form-label">Last name</label></h4>
+            <input type="text" name="last_name" maxlength="100" class="form-control" id="id_last_name">
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_photo" class="form-label">Photo</label></h4>
+            <input type="file" name="photo" accept="image/*" class="form-control" required id="id_photo">
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_group" class="form-label">Group</label></h4>
+            <select name="group" class="form-control" required id="id_group">
+                <option value="" disabled>Select Group</option>
+
+                <option value="A">A</option>
+
+                <option value="B">B</option>
+
+                <option value="AB">AB</option>
+
+            </select>
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_standard" class="form-label">Standard</label></h4>
+            <input type="text" name="standard" maxlength="4" class="form-control" required id="id_standard">
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_start_year" class="form-label">Start year</label></h4>
+            <input type="text" name="start_year" maxlength="4" class="form-control" required id="id_start_year">
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_student_type" class="form-label">Student type</label></h4>
+            <select name="student_type" class="form-control" required id="id_student_type">
+                <option value="" disabled>Select Student Type</option>
+
+                <option value="Regular">Regular</option>
+
+                <option value="Only NEET/JEE">Only NEET/JEE</option>
+
+                <option value="Repeater">Repeater</option>
+
+            </select>
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_roll_number" class="form-label">Roll number</label></h4>
+            <input type="text" name="roll_number" maxlength="10" class="form-control" required id="id_roll_number">
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_birth_date" class="form-label">Birth date</label></h4>
+            <input type="date" name="birth_date" class="form-control" required id="id_birth_date">
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_student_mobile_number" class="form-label">Student Mobile Number</label></h4>
+            <input type="number" name="student_mobile_number" class="form-control" id="id_student_mobile_number">
+        </div>
+
+
+        <div class="mb-1">
+            <h4><label for="id_parrent_mobile_number" class="form-label">Parrent Mobile Number</label></h4>
+            <input type="number" name="parrent_mobile_number" class="form-control" required
+                id="id_parrent_mobile_number">
+        </div>
+
+
+        <div class="mb-1">
+            <h4><label for="id_discussed_fee" class="form-label">Discussed fee</label></h4>
+            <input type="number" name="discussed_fee" class="form-control" required id="id_discussed_fee">
+        </div>
+
+        <div class="mb-1">
+            <h4><label for="id_status" class="form-label">Student Status</label></h4>
+            <select name="status" class="form-control" required id="id_status">
+                <option value="" disabled>Select Student Status</option>
+
+                <option value="Studying">Studying</option>
+
+                <option value="Not Studying">Not Studying</option>
+
+                <option value="Completed">Completed</option>
+
+            </select>
+        </div>
+
+        <button type="submit" class="mt-1 btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock body %}

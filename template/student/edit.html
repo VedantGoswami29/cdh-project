@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container my-3">
+    {% block formStart %}
+    <form action="/student/edit" method="post">
+        {% csrf_token %}
+        {% endblock formStart %}
+        <div class="my-2">
+            <h4><label for="id_roll_number" class="form-label">Roll Number</label></h4>
+            <input type="text" class="form-control" id="id_roll_number" name="roll_number" required>
+        </div>
+        <div class="my-2">
+            <button class="btn btn-success" id="search">Search Data</button>
+            <button class="btn btn-danger mx-1" id="reset" disabled>Reset Data</button>
+        </div>
+
+        <!-- Loading Bar -->
+        <div id="loading-spinner" style="display: none;" class="my-2">
+            <span class="fw-bold">Loading</span>
+            <div class="spinner-grow spinner-grow-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow spinner-grow-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow spinner-grow-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_first_name" class="form-label">First Name</label></h4>
+            <input type="text" class="form-control" id="id_first_name" name="first_name" disabled required>
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_last_name" class="form-label">Last Name</label></h4>
+            <input type="text" class="form-control" id="id_last_name" name="last_name" disabled required>
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_photo" class="form-label">Photo</label></h4>
+            {% block photo %} <input type="file" class="form-control" id="id_photo" accept="image/*" name="photo"
+                disabled> {% endblock photo %}
+            <img src="" alt="Student Photo" class="img-thumbnail my-2" width="100" height="100" id="photo">
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_group" class="form-label">Group</label></h4>
+            {% block group %}
+            <select name="group" id="id_group" class="form-control" disabled required>
+                <option value="" selected disabled>Select Student Group</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="AB">AB</option>
+            </select>
+            {% endblock group %}
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_standard" class="form-label">Standard</label></h4>
+            <input type="text" class="form-control" id="id_standard" name="standard" disabled required>
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_start_year" class="form-label">Start Year</label></h4>
+            <input type="text" class="form-control" id="id_start_year" name="start_year" disabled required>
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_student_type" class="form-label">Student Type</label></h4>
+            {% block student-type %}
+            <select name="student_type" id="id_student_type" class="form-control" disabled required>
+                <option value="" selected disabled>Select Student Type</option>
+
+                <option value="Regular">Regular</option>
+
+                <option value="Only NEET/JEE">Only NEET/JEE</option>
+
+                <option value="Repeater">Repeater</option>
+            </select>
+            {% endblock student-type %}
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_birth_date" class="form-label">Birth Date</label></h4>
+            <input type="date" class="form-control" id="id_birth_date" name="birth_date" disabled required>
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_student_mobile_number" class="form-label">Student Mobile Number</label></h4>
+            <input type="number" class="form-control" id="id_student_mobile_number" name="student_mobile_number"
+                disabled>
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_parrent_mobile_number" class="form-label">Parrent Mobile Number</label></h4>
+            <input type="number" class="form-control" id="id_parrent_mobile_number" name="parrent_mobile_number"
+                disabled required>
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_discussed_fee" class="form-label">Discussed fee</label></h4>
+            <input type="number" name="discussed_fee" class="form-control" id="id_discussed_fee" disabled required>
+        </div>
+
+        <div class="my-2">
+            <h4><label for="id_status" class="form-label">Student Status</label></h4>
+            {% block student-status %}
+            <select name="status" id="id_status" class="form-control" disabled required>
+                <option value="" selected disabled>Select Student Status</option>
+                <option value="Studying">Studying</option>
+                <option value="Not Studying">Not Studying</option>
+                <option value="Completed">Completed</option>
+            </select>
+            {% endblock student-status %}
+        </div>
+        {% block form-end %}
+        <button class="btn btn-primary my-2">Edit Student</button>
+    </form>
+    {% endblock form-end %}
+    <script>
+        const search = document.getElementById("search");
+        const reset = document.getElementById("reset");
+        const roll_number = document.getElementById("id_roll_number");
+        const loader = document.getElementById("loading-spinner");
+        const input_fields = document.querySelectorAll("input:not([type='hidden']):not([id='id_roll_number']), select");
+        function enableFields(enable) {
+            {% block enable %}
+            input_fields.forEach((field) => {
+                
+                field.disabled = !enable;
+                field.value = "";
+            })
+            roll_number.readOnly = enable;
+            roll_number.value = enable ? roll_number.value : ""
+            photo.src = ""
+            {% endblock enable %}
+        }
+        async function getData(roll_number) {
+            const api_url = `/student/get?roll_number=${roll_number}`;
+            loader.style.display = "block";
+            try {
+                const response = await fetch(api_url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+
+                if (!response.ok) {
+                    throw new Error(response.status);
+                }
+
+                const jsonData = await response.json();
+                const student = jsonData.student;
+                document.getElementById("id_first_name").value = student.first_name;
+                document.getElementById("id_last_name").value = student.last_name;
+                document.getElementById("photo").src = `/media/${student.photo}`;
+                document.getElementById("id_group").value = student.group;
+                document.getElementById("id_standard").value = student.standard;
+                document.getElementById("id_start_year").value = student.start_year;
+                document.getElementById("id_student_type").value = student.student_type;
+                document.getElementById("id_birth_date").value = student.birth_date;
+                document.getElementById("id_student_mobile_number").value = student.student_mobile_number;
+                document.getElementById("id_parrent_mobile_number").value = student.parrent_mobile_number;
+                document.getElementById("id_discussed_fee").value = student.discussed_fee;
+                document.getElementById("id_status").value = student.status;
+
+                search.disabled = true;
+                reset.disabled = false;
+            } catch (error) {
+                alert(error);
+                search.disabled = false;
+                reset.disabled = true;
+                roll_number.readOnly = false;
+            } finally {
+                loader.style.display = "none";
+            }
+        }
+
+        roll_number.addEventListener("keydown", (e)=> {
+            if(e.key === "Enter") {
+                enableFields(true)
+                getData(roll_number.value);
+            }
+            
+        })
+
+        search.addEventListener("click", (e) => {
+            e.preventDefault();
+            enableFields(true)
+            getData(roll_number.value);
+        })
+
+        reset.addEventListener("click", (e) => {
+            e.preventDefault();
+            enableFields(false);
+            search.disabled = false;
+            reset.disabled = true;
+        })
+    </script>
+</div>
+{% endblock body %}

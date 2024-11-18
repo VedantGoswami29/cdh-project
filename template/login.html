@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container my-3">
+    <form action="/login" method="POST">
+        {% csrf_token %}
+        <input type="hidden" value="{{request.GET.next|default:"/"}}" name="next" />
+        <div class="mb-3">
+            <h4><label for="username" class="form-label">User name</label></h4>
+            <input name="username" type="text" class="form-control" id="username" placeholder="Username" required>
+        </div>
+        <div class="mb-3">
+            <h4><label for="password" class="form-label">Password</label></h4>
+            <input name="password" type="password" class="form-control" id="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock body %}
